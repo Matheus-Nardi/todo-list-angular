@@ -1,0 +1,41 @@
+
+<main>
+    <h1>Todo List</h1>
+    <div class="input-area">
+        <input type="text" placeholder="Uma tarefa para hoje" #task>
+        <button (click)="addNewTask(task.value); task.value = ''">Adicionar</button>
+    </div>
+
+    <div class="datetime">
+        <p>{{ dayOfWeek }}</p>
+        <p>{{ dateTime }}</p>
+    </div>
+
+    <div class="task-container">
+        @for (task of tasks; track $index) {
+        <div class="task-item">
+            <input id="custom-checkbox" type="checkbox" [checked]="task.isCompleted" (change)="completeTask(task)">
+
+            @if (task.isEditing) {
+                <input class="edit-input" type="text" [value]="task.name" #editInput />
+                <button (click)="saveTask(task, editInput.value)">Salvar</button>
+                <button (click)="cancelEdit(task)">Cancelar</button>
+            } @else {
+                <label [style.text-decoration]="task.isCompleted ? 'line-through' : 'none'">
+                    {{ task.name }}
+                </label>
+                <button (click)="editTask(task)" [disabled]="task.isCompleted">Editar</button>
+                <button (click)="deleteTask(task)">Excluir</button>
+            }
+        </div>
+        }
+        @empty {
+        <p>Não há tarefas por enquanto</p>
+        }
+    </div>
+</main>
+
+<footer>
+    <span>Feito por ©Matheus Nardi </span>
+    <a href="https://github.com/Matheus-Nardi/todo-list-angular" target="_blank"><img src="assets/github.png"  width="30" height="30" alt="Icone do Github"></a>
+</footer>
